@@ -54,7 +54,35 @@ function ResumeGenerator() {
     const pdfBytes = await pdfDoc.save();
     const pdfBlob = new Blob([pdfBytes], { type: 'application/pdf' });
     saveAs(pdfBlob, 'resume.pdf');
-    // add code here to generate pdf or word document
+
+    // End of pdf generate
+
+    // Generate Word document
+    const doc = new Document();
+    doc.addSection({
+      properties: {},
+      children: [
+        new Paragraph(`Name: ${name}`),
+        new Paragraph(`Email: ${email}`),
+        new Paragraph(`Phone: ${phone}`),
+        new Paragraph(`Address: ${address}`),
+        new Paragraph(''),
+        new Paragraph('Education:'),
+        new Paragraph(education),
+        new Paragraph(''),
+        new Paragraph('Work Experience:'),
+        new Paragraph(workExperience),
+        new Paragraph(''),
+        new Paragraph('Skills:'),
+        new Paragraph(skills),
+      ],
+    });
+  
+    // Save Word document
+    const buffer = await Packer.toBuffer(doc);
+    const blob = new Blob([buffer], { type: 'application/vnd.openxmlformats-officedocument.wordprocessingml.document' });
+    saveAs(blob, 'resume.docx');
+  
   };
 
   const handleFormReset = () => {
