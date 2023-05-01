@@ -1,6 +1,8 @@
 import { useState } from 'react';
 import ResumeForm from './ResumeForm';
 import ResumePreview from './ResumePreview';
+import { saveAs } from 'file-saver';
+import { PDFDocument, StandardFonts } from 'pdf-lib';
 
 function ResumeGenerator() {
   const [formData, setFormData] = useState({
