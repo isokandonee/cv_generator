@@ -1,8 +1,8 @@
+import { saveAs } from 'file-saver';
+import { PDFDocument, StandardFonts } from 'pdf-lib';
 import { useState } from 'react';
 import ResumeForm from './ResumeForm';
 import ResumePreview from './ResumePreview';
-import { saveAs } from 'file-saver';
-import { PDFDocument, StandardFonts } from 'pdf-lib';
 
 function ResumeGenerator() {
   const [formData, setFormData] = useState({
@@ -15,9 +15,43 @@ function ResumeGenerator() {
     skills: '',
   });
 
-  const handleFormSubmit = (event) => {
+  const handleFormSubmit = async (event) => {
     event.preventDefault();
-    console.log(formData);
+
+    // Generate PDF document
+    const pdfDoc = await PDFDocument.create();
+    const page = pdfDoc.addPage();
+    const helveticaFont = await pdfDoc.embedFont(StandardFonts.Helvetica);
+    const { name, email, phone, address, education, workExperience, skills } = formData;
+    const lines = [
+      `Name: ${name}`,
+      `Email: ${email}`,
+      `Phone: ${phone}`,
+      `Address: ${address}`,
+      '',
+      'Education:',
+      education,
+      '',
+      'Work Experience:',
+      workExperience,
+      '',
+      'Skills:',
+      skills,
+    ];
+    const text = lines.join('\n');
+    const textWidth = helveticaFont.widthOfTextAtSize(text, 12);
+    const textHeight = helveticaFont.heightAtSize(12);
+    page.drawText(text, {
+      x: page.getWidth() / 2 - textWidth / 2,
+      y: page.getHeight() / 2 - textHeight / 2,
+      font: helveticaFont,
+      size: 12,
+    });
+  
+    // Save PDF document
+    const pdfBytes = await pdfDoc.save();
+    const pdfBlob = new Blob([pdfBytes], { type: 'application/pdf' });
+    saveAs(pdfBlob, 'resume.pdf');
     // add code here to generate pdf or word document
   };
 
