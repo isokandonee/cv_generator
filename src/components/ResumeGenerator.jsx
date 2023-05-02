@@ -1,10 +1,10 @@
 
+import { Document, Packer, Paragraph } from 'docx';
+import { saveAs } from 'file-saver';
+import { PDFDocument, StandardFonts } from 'pdf-lib';
 import { useState } from 'react';
 import ResumeForm from './ResumeForm';
 import ResumePreview from './ResumePreview';
-import { saveAs } from 'file-saver';
-import { PDFDocument, StandardFonts } from 'pdf-lib';
-import { Document, Packer, Paragraph } from 'docx';
 
 function ResumeGenerator() {
   const [formData, setFormData] = useState({
