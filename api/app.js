@@ -12,17 +12,19 @@ const authRoute = require("./routes/authRouter");
 const userRoute = require("./routes/userRoute");
 const templateRoute = require("./routes/templateRoute");
 const resumeRoute = require("./routes/resumeRoute");
+const displayRoute=require("../api/controller/usageController")
 
 app.use(express.json());
 app.use(cors())
 app.use(cookieParser(process.env.JWT_SECRET));
-app.use(express.static("./public"));
-app.use("/simple", express.static("./public/template/simple.html"));
+app.use(express.static("./public/template"));
+//app.use("/simple", express.static("./public/template/simple.html"));
 
 app.use("/api/v1/auth", authRoute);
 app.use("/api/v1/users/", userRoute);
 app.use("/api/v1/templates", templateRoute);
 app.use("/api/v1/resumes", resumeRoute);
+app.use("/generate",displayRoute)
 
 app.use(notFound);
 app.use(errorHandler);
