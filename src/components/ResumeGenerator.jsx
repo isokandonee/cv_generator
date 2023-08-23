@@ -1,4 +1,6 @@
 
+import htmlToPdfmake from 'html-to-pdfmake';
+import * as docx from 'docx';
 import { Document, Packer, Paragraph } from 'docx';
 import { saveAs } from 'file-saver';
 import { PDFDocument, StandardFonts } from 'pdf-lib';
